@@ -1,0 +1,29 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptocompanion_CS", "Cryptocompanion_CS\Cryptocompanion_CS\Cryptocompanion_CS.csproj", "{87DDAE2C-E3C9-4459-9896-20ED65DD350A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptocompanion_CS.Desktop", "Cryptocompanion_CS\Cryptocompanion_CS.Desktop\Cryptocompanion_CS.Desktop.csproj", "{07730735-A573-40D2-88B3-2299F685C85B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptocompanion_CS.XamMac", "Cryptocompanion_CS\Cryptocompanion_CS.XamMac\Cryptocompanion_CS.XamMac.csproj", "{A8238B32-E992-4CFF-BF61-2008ADAB6D03}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{87DDAE2C-E3C9-4459-9896-20ED65DD350A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87DDAE2C-E3C9-4459-9896-20ED65DD350A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87DDAE2C-E3C9-4459-9896-20ED65DD350A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87DDAE2C-E3C9-4459-9896-20ED65DD350A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07730735-A573-40D2-88B3-2299F685C85B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07730735-A573-40D2-88B3-2299F685C85B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07730735-A573-40D2-88B3-2299F685C85B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07730735-A573-40D2-88B3-2299F685C85B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8238B32-E992-4CFF-BF61-2008ADAB6D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8238B32-E992-4CFF-BF61-2008ADAB6D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8238B32-E992-4CFF-BF61-2008ADAB6D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8238B32-E992-4CFF-BF61-2008ADAB6D03}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
