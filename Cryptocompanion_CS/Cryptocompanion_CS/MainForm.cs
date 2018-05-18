@@ -6,10 +6,14 @@ namespace Cryptocompanion
 {
     public partial class MainForm : Form
     {
+        private StartDialog start;
         public MainForm()
         {
+            start = new StartDialog();
+            start.Shown += Start_Shown;
             Title = "My Eto Form";
             ClientSize = new Size(400, 350);
+            Opacity = 20;
 
             Content = new StackLayout
             {
@@ -24,6 +28,12 @@ namespace Cryptocompanion
             // create a few commands that can be used for the menu and toolbar
             var clickMe = new Command { MenuText = "Click Me!", ToolBarText = "Click Me!" };
             clickMe.Executed += (sender, e) => MessageBox.Show(this, "I was clicked!");
+
+            var clickMeToo = new Command { MenuText = "Click Me Too!", ToolBarText = "Click Me Too!" };
+            clickMeToo.Executed += (sender, e) =>
+            {
+                new StartDialog().ShowModal(this);
+            };
 
             var quitCommand = new Command { MenuText = "Quit", Shortcut = Application.Instance.CommonModifier | Keys.Q };
             quitCommand.Executed += (sender, e) => Application.Instance.Quit();
@@ -51,7 +61,13 @@ namespace Cryptocompanion
             };
 
             // create toolbar			
-            ToolBar = new ToolBar { Items = { clickMe } };
+            ToolBar = new ToolBar { Items = { clickMe, clickMeToo } };
         }
+
+        void Start_Shown(object sender, EventArgs e)
+        {
+            Opacity = 0;
+        }
+
     }
 }
