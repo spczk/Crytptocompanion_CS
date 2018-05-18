@@ -42,9 +42,15 @@ namespace Cryptocompanion
                 if (saveFile.ShowDialog(this) == DialogResult.Ok)
                 {
                     string fileName = saveFile.FileName;
-                    System.IO.File.WriteAllText(fileName, (firstName.Text + "-"));
-                    System.IO.File.AppendAllText(fileName, (lastName.Text + "-"));
-                    System.IO.File.AppendAllText(fileName, password.Text);
+                    string passPhrase = Cryptography.GetUniqueKey(6);
+                    string encFirstName = Cryptography.Encrypt(firstName.Text, passPhrase);
+                    string encLastName = Cryptography.Encrypt(lastName.Text, passPhrase);
+                    string encPassword = Cryptography.Encrypt(password.Text, passPhrase);
+
+                    System.IO.File.WriteAllText(fileName, (passPhrase + "-"));
+                    System.IO.File.AppendAllText(fileName, (encFirstName + "-"));
+                    System.IO.File.AppendAllText(fileName, (encLastName + "-"));
+                    System.IO.File.AppendAllText(fileName, encPassword);
                     MessageBox.Show(this, "Registered Succesfully!");
                 }
                 Close();

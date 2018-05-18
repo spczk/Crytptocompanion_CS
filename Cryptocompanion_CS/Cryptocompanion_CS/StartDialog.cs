@@ -51,9 +51,13 @@ namespace Cryptocompanion
                             var content = fileContent.Split('-');
                             if (content.Length > 1)
                             {
-                                user.firstName = content[0];
-                                user.lastName = content[1];
-                                user.password = content[2];
+                                string passPhrase = content[0];
+                                string decFirstName = Cryptography.Decrypt(content[1], passPhrase);
+                                string decLastName = Cryptography.Decrypt(content[2], passPhrase);
+                                string decPassword = Cryptography.Decrypt(content[3], passPhrase);
+                                user.firstName = decFirstName;
+                                user.lastName = decLastName;
+                                user.password = decPassword;
                             }
                         }
                         LoginDialog login = new LoginDialog();
