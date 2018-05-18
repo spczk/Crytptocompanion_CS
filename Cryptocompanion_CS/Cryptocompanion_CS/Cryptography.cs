@@ -10,7 +10,7 @@ namespace Cryptocompanion
     {
         // This constant is used to determine the keysize of the encryption algorithm in bits.
         // We divide this by 8 within the code below to get the equivalent number of bytes.
-        private const int Keysize = 256;
+        private const int Keysize = 128;
 
         // This constant determines the number of iterations for the password bytes generation function.
         private const int DerivationIterations = 1000;
@@ -25,9 +25,9 @@ namespace Cryptocompanion
             using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations))
             {
                 var keyBytes = password.GetBytes(Keysize / 8);
-                using (var symmetricKey = new RijndaelManaged())
+                using (var symmetricKey = Aes.Create())
                 {
-                    symmetricKey.BlockSize = 256;
+                    symmetricKey.BlockSize = 128;
                     symmetricKey.Mode = CipherMode.CBC;
                     symmetricKey.Padding = PaddingMode.PKCS7;
                     using (var encryptor = symmetricKey.CreateEncryptor(keyBytes, ivStringBytes))
@@ -42,8 +42,8 @@ namespace Cryptocompanion
                                 var cipherTextBytes = saltStringBytes;
                                 cipherTextBytes = cipherTextBytes.Concat(ivStringBytes).ToArray();
                                 cipherTextBytes = cipherTextBytes.Concat(memoryStream.ToArray()).ToArray();
-                                memoryStream.Close();
-                                cryptoStream.Close();
+                                //memoryStream.Close();
+                                //cryptoStream.Close();
                                 return Convert.ToBase64String(cipherTextBytes);
                             }
                         }
@@ -67,9 +67,9 @@ namespace Cryptocompanion
             using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations))
             {
                 var keyBytes = password.GetBytes(Keysize / 8);
-                using (var symmetricKey = new RijndaelManaged())
+                using (var symmetricKey = Aes.Create())
                 {
-                    symmetricKey.BlockSize = 256;
+                    symmetricKey.BlockSize = 128;
                     symmetricKey.Mode = CipherMode.CBC;
                     symmetricKey.Padding = PaddingMode.PKCS7;
                     using (var decryptor = symmetricKey.CreateDecryptor(keyBytes, ivStringBytes))
@@ -80,8 +80,8 @@ namespace Cryptocompanion
                             {
                                 var plainTextBytes = new byte[cipherTextBytes.Length];
                                 var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
-                                memoryStream.Close();
-                                cryptoStream.Close();
+                                //memoryStream.Close();
+                                //cryptoStream.Close();
                                 return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
                             }
                         }
@@ -92,13 +92,31 @@ namespace Cryptocompanion
 
         private static byte[] Generate256BitsOfRandomEntropy()
         {
-            var randomBytes = new byte[32]; // 32 Bytes will give us 256 bits.
-            using (var rngCsp = new RNGCryptoServiceProvider())
+            var randomBytes = new byte[16]; // 32 Bytes will give us 256 bits.
+            using (var rngCsp = RandomNumberGenerator.Create())
             {
                 // Fill the array with cryptographically secure random bytes.
                 rngCsp.GetBytes(randomBytes);
             }
             return randomBytes;
+        }
+
+        public static string GetUniqueKey(int maxSize)
+        {
+            char[] chars = new char[62];
+            chars =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+            byte[] data = new byte[1];
+            var crypto = RandomNumberGenerator.Create();
+            crypto.GetBytes(data);
+            data = new byte[maxSize];
+            crypto.GetBytes(data);
+            StringBuilder result = new StringBuilder(maxSize);
+            foreach (byte b in data)
+            {
+                result.Append(chars[b % (chars.Length)]);
+            }
+            return result.ToString();
         }
     }
 }
