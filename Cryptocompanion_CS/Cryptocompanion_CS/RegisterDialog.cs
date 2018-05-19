@@ -43,6 +43,8 @@ namespace Cryptocompanion
                 {
                     string fileName = saveFile.FileName;
                     string passPhrase = Cryptography.GetUniqueKey(6);
+                    string recoveryCode = Cryptography.GetRecoveryCode(6);
+                    string encRecoveryCode = Cryptography.Encrypt(recoveryCode, passPhrase);
                     string encFirstName = Cryptography.Encrypt(firstName.Text, passPhrase);
                     string encLastName = Cryptography.Encrypt(lastName.Text, passPhrase);
                     string encPassword = Cryptography.Encrypt(password.Text, passPhrase);
@@ -50,8 +52,9 @@ namespace Cryptocompanion
                     System.IO.File.WriteAllText(fileName, (passPhrase + "-"));
                     System.IO.File.AppendAllText(fileName, (encFirstName + "-"));
                     System.IO.File.AppendAllText(fileName, (encLastName + "-"));
-                    System.IO.File.AppendAllText(fileName, encPassword);
-                    MessageBox.Show(this, "Registered Succesfully!");
+                    System.IO.File.AppendAllText(fileName, (encPassword + "-"));
+                    System.IO.File.AppendAllText(fileName, encRecoveryCode);
+                    MessageBox.Show(this, "Registered Succesfully!\nYour recovery code is: " + recoveryCode);
                 }
                 Close();
                 };

@@ -118,5 +118,23 @@ namespace Cryptocompanion
             }
             return result.ToString();
         }
+
+        public static string GetRecoveryCode(int maxSize)
+        {
+            char[] chars = new char[62];
+            chars =
+            "1234567890".ToCharArray();
+            byte[] data = new byte[1];
+            var crypto = RandomNumberGenerator.Create();
+            crypto.GetBytes(data);
+            data = new byte[maxSize];
+            crypto.GetBytes(data);
+            StringBuilder result = new StringBuilder(maxSize);
+            foreach (byte b in data)
+            {
+                result.Append(chars[b % (chars.Length)]);
+            }
+            return result.ToString();
+        }
     }
 }

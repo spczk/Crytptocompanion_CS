@@ -8,11 +8,15 @@ namespace Cryptocompanion
     public class StartDialog : Dialog
     {
         private Button RegisterButton;
-        private User user;
+        public User user { get; set; }
+        public bool LoginCheck { get; set; }
+        public string PassPhrase { get; set; }
 
         public StartDialog()
         {
             Title = "Cryptocompanion";
+
+            LoginCheck = false;
 
             Content = new StackLayout
             {
@@ -40,7 +44,6 @@ namespace Cryptocompanion
                 {
                     string fileName;
                     fileName = fileDialog.FileName;
-                    MessageBox.Show(this, fileName);
                         string fileContent;
                         using (System.IO.StreamReader sr = System.IO.File.OpenText(fileName))
                         {
@@ -51,22 +54,25 @@ namespace Cryptocompanion
                             var content = fileContent.Split('-');
                             if (content.Length > 1)
                             {
-                                string passPhrase = content[0];
-                                string decFirstName = Cryptography.Decrypt(content[1], passPhrase);
-                                string decLastName = Cryptography.Decrypt(content[2], passPhrase);
-                                string decPassword = Cryptography.Decrypt(content[3], passPhrase);
-                                user.firstName = decFirstName;
-                                user.lastName = decLastName;
-                                user.password = decPassword;
+                                PassPhrase = content[0];
+                                string decFirstName = Cryptography.Decrypt(content[1], PassPhrase);
+                                string decLastName = Cryptography.Decrypt(content[2], PassPhrase);
+                                string decPassword = Cryptography.Decrypt(content[3], PassPhrase);
+                                string decRecoveryCode = Cryptography.Decrypt(content[4], PassPhrase);
+                                user.FirstName = decFirstName;
+                                user.LastName = decLastName;
+                                user.Password = decPassword;
+                                user.RecoveryCode = decRecoveryCode;
                             }
                         }
                         LoginDialog login = new LoginDialog();
                         login.ShowModal(this);
-                            if (login.UserName == (user.firstName + " " + user.lastName) && login.UserPassword == user.password)
+                            if (login.UserName == (user.FirstName + " " + user.LastName) && login.UserPassword == user.Password)
                             {
                                 MessageBox.Show(this, "Login Succesful!");
+                                LoginCheck = true;
                             }
-
+                    Close();
                 }
              
             };
@@ -74,4 +80,5 @@ namespace Cryptocompanion
             RegisterButton.Click += (sender, e) => new RegisterDialog().ShowModal();
         }
     }
+
 }

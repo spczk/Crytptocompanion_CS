@@ -10,29 +10,70 @@ namespace Cryptocompanion
         public MainForm()
         {
             start = new StartDialog();
-            start.Shown += Start_Shown;
-            Title = "My Eto Form";
+            start.ShowModal(this);
+            if (start.LoginCheck == false)
+            {
+                Close();
+            }
+
+            Title = "Cryptocompanion";
             ClientSize = new Size(400, 350);
-            Opacity = 20;
 
             Content = new StackLayout
             {
                 Padding = 10,
                 Items =
                 {
-                    "Hello World!",
-					// add more controls here
 				}
             };
 
             // create a few commands that can be used for the menu and toolbar
-            var clickMe = new Command { MenuText = "Click Me!", ToolBarText = "Click Me!" };
-            clickMe.Executed += (sender, e) => MessageBox.Show(this, "I was clicked!");
-
-            var clickMeToo = new Command { MenuText = "Click Me Too!", ToolBarText = "Click Me Too!" };
-            clickMeToo.Executed += (sender, e) =>
+            var AddCommand = new Command { MenuText = "Add...", ToolBarText = "Add..." };
+            AddCommand.Executed += (sender, e) => 
             {
-                new StartDialog().ShowModal(this);
+                AddDialog add = new AddDialog();
+                add.ShowModal(this);
+            };
+
+            var OpenCommand = new Command { MenuText = "Open...", ToolBarText = "Open..." };
+            OpenCommand.Executed += (sender, e) => 
+            {
+                
+            };
+
+            var SaveCommand = new Command { MenuText = "Save...", ToolBarText = "Save..." };
+            SaveCommand.Executed += (sender, e) =>
+            {
+                SaveFileDialog saveFile = new SaveFileDialog();
+                if (saveFile.ShowDialog(this) == DialogResult.Ok)
+                {
+                    string fileName = saveFile.FileName;
+
+                    string encRecoveryCode = Cryptography.Encrypt(start.user.RecoveryCode, start.PassPhrase);
+                    string encFirstName = Cryptography.Encrypt(start.user.FirstName, start.PassPhrase);
+                    string encLastName = Cryptography.Encrypt(start.user.LastName, start.PassPhrase);
+                    string encPassword = Cryptography.Encrypt(start.user.Password, start.PassPhrase);
+
+                    System.IO.File.WriteAllText(fileName, (start.PassPhrase + "-"));
+                    System.IO.File.AppendAllText(fileName, (encFirstName + "-"));
+                    System.IO.File.AppendAllText(fileName, (encLastName + "-"));
+                    System.IO.File.AppendAllText(fileName, (encPassword + "-"));
+                    System.IO.File.AppendAllText(fileName, encRecoveryCode);
+                    MessageBox.Show(this, "File saved successfully!");
+                }
+            };
+
+            var ChangePasswordCommand = new Command { MenuText = "Change Password", ToolBarText = "Change Password" };
+            ChangePasswordCommand.Executed += (sender, e) => 
+            {
+                ChangePasswordDialog change = new ChangePasswordDialog();
+                change.ShowModal(this);
+                if (change.RecoveryCodeCheck == start.user.RecoveryCode)
+                {
+                    start.user.Password = change.ChangedPassword;
+                    MessageBox.Show(this, "Password changed successfully!");
+                }
+
             };
 
             var quitCommand = new Command { MenuText = "Quit", Shortcut = Application.Instance.CommonModifier | Keys.Q };
@@ -47,7 +88,7 @@ namespace Cryptocompanion
                 Items =
                 {
 					// File submenu
-					new ButtonMenuItem { Text = "&File", Items = { clickMe } },
+                    new ButtonMenuItem { Text = "&File", Items = { AddCommand } },
 					// new ButtonMenuItem { Text = "&Edit", Items = { /* commands/items */ } },
 					// new ButtonMenuItem { Text = "&View", Items = { /* commands/items */ } },
 				},
@@ -61,13 +102,9 @@ namespace Cryptocompanion
             };
 
             // create toolbar			
-            ToolBar = new ToolBar { Items = { clickMe, clickMeToo } };
+            ToolBar = new ToolBar { Items = { AddCommand, SaveCommand, ChangePasswordCommand } };
         }
 
-        void Start_Shown(object sender, EventArgs e)
-        {
-            Opacity = 0;
-        }
 
     }
 }
