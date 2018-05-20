@@ -9,7 +9,7 @@ namespace Cryptocompanion
     {
 
         TextBox RecoveryCode;
-        TextBox NewPassword;
+        PasswordBox NewPassword;
         public string RecoveryCodeCheck { get { return RecoveryCode.Text; } }
         public string ChangedPassword { get { return NewPassword.Text; } }
 
@@ -19,7 +19,7 @@ namespace Cryptocompanion
             Padding = 10;
 
             RecoveryCode = new TextBox();
-            NewPassword = new TextBox();
+            NewPassword = new PasswordBox {Width = 100};
 
             Content = new StackLayout
             {

@@ -15,13 +15,13 @@ namespace Cryptocompanion
         TextBox PrivateKey;
         TextBox PassPhrase;
         TextBox WordCode;
-        public string AddName { get { return Name.Text; } }
-        public string AddCryptocurrencyName { get { return CryptocurrencyName.Text; } }
-        public string AddAddress { get { return Address.Text; } }
-        public string AddPublicKey { get { return PublicKey.Text; } }
-        public string AddPrivateKey { get { return PrivateKey.Text; } }
-        public string AddPassPhrase { get { return PassPhrase.Text; } }
-        public string AddWordCode { get { return WordCode.Text; } }
+        public string AddName { get { return Name.Text; } set { Name.Text = value; } }
+        public string AddCryptocurrencyName { get { return CryptocurrencyName.Text; } set { CryptocurrencyName.Text = value; } }
+        public string AddAddress { get { return Address.Text; } set { Address.Text = value; } }
+        public string AddPublicKey { get { return PublicKey.Text; } set { PublicKey.Text = value; } }
+        public string AddPrivateKey { get { return PrivateKey.Text; } set { PrivateKey.Text = value; } }
+        public string AddPassPhrase { get { return PassPhrase.Text; } set { PassPhrase.Text = value; } }
+        public string AddWordCode { get { return WordCode.Text; } set { WordCode.Text = value; } }
 
         public AddDialog()
         {

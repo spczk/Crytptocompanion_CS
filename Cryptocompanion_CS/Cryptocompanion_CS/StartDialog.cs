@@ -26,6 +26,7 @@ namespace Cryptocompanion
                 }
             };
 
+
             // buttons
             DefaultButton = new Button { Text = "Login" };
             RegisterButton = new Button { Text = "Register" };
@@ -33,7 +34,7 @@ namespace Cryptocompanion
             PositiveButtons.Add(RegisterButton);
 
             AbortButton = new Button { Text = "Quit" };
-            AbortButton.Click += (sender, e) => Close();
+            AbortButton.Click += (sender, e) => Application.Instance.Quit();
             NegativeButtons.Add(AbortButton);
 
             DefaultButton.Click += (sender, e) =>
