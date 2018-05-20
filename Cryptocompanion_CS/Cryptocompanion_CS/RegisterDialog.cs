@@ -38,9 +38,11 @@ namespace Cryptocompanion
 
             DefaultButton.Click += (sender, e) =>
             {
+                //Opening a save file dialog
                 SaveFileDialog saveFile = new SaveFileDialog();
                 if (saveFile.ShowDialog(this) == DialogResult.Ok)
                 {
+                    //After dialog is closed program encrypts user data and writes it to the specified file
                     string fileName = saveFile.FileName;
                     string passPhrase = Cryptography.GetUniqueKey(6);
                     string recoveryCode = Cryptography.GetRecoveryCode(6);
@@ -53,7 +55,7 @@ namespace Cryptocompanion
                     System.IO.File.AppendAllText(fileName, (encFirstName + "-"));
                     System.IO.File.AppendAllText(fileName, (encLastName + "-"));
                     System.IO.File.AppendAllText(fileName, (encPassword + "-"));
-                    System.IO.File.AppendAllText(fileName, encRecoveryCode);
+                    System.IO.File.AppendAllText(fileName, (encRecoveryCode + "-"));
                     MessageBox.Show(this, "Registered Succesfully!\nYour recovery code is: " + recoveryCode);
                 }
                 Close();

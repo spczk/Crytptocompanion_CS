@@ -92,7 +92,7 @@ namespace Cryptocompanion
 
         private static byte[] Generate256BitsOfRandomEntropy()
         {
-            var randomBytes = new byte[16]; // 32 Bytes will give us 256 bits.
+            var randomBytes = new byte[16]; // 16 Bytes will give us 128 bits.
             using (var rngCsp = RandomNumberGenerator.Create())
             {
                 // Fill the array with cryptographically secure random bytes.
@@ -100,7 +100,7 @@ namespace Cryptocompanion
             }
             return randomBytes;
         }
-
+        //Random string generator - uses characters specified in char
         public static string GetUniqueKey(int maxSize)
         {
             char[] chars = new char[62];
@@ -118,7 +118,7 @@ namespace Cryptocompanion
             }
             return result.ToString();
         }
-
+        //Almost the same as GetUniqueKey, but uses only numbers - still returning a string
         public static string GetRecoveryCode(int maxSize)
         {
             char[] chars = new char[62];

@@ -38,6 +38,7 @@ namespace Cryptocompanion
 
             DefaultButton.Click += (sender, e) =>
             {
+                //Setting properties to be able to get these string out of the dialog
                 string userName = name.Text;
                 string userPassword = password.Text;
                 Close();
